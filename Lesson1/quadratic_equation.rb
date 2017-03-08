@@ -15,8 +15,9 @@ d = (b ** 2 - 4 * a * c)
 if d < 0
   out = 'корней нет.'
 elsif d > 0
-  x1 = (-b + Math.sqrt(d)) / ( 2 * a )
-  x2 = (-b - Math.sqrt(d)) / ( 2 * a )
+  d_sqr = Math.sqrt(d)
+  x1 = (-b + d_sqr) / ( 2 * a )
+  x2 = (-b - d_sqr) / ( 2 * a )
   out = "X1 = #{x1}, X2 = #{x2}"
 elsif d ==0
   x = -b / ( 2 * a )
