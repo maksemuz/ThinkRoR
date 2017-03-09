@@ -18,15 +18,16 @@ loop do
   cost = gets.strip.to_f
   puts 'Введите количество купленного товара в виде одного числа, например 0.00: '
   amount = gets.strip.to_f
-  one_buy[cost] = amount
+  one_buy[:cost] = cost
+  one_buy[:amount] = amount
   list[title] = one_buy
 end
 
 puts "Хэш: #{list}"
 puts 'Итоговый список:'
 itogo = 0
-list.each do |title,data|
-  one_buy_sum = data.to_a.flatten.reduce(:*)
+list.each do |title,buy|
+  one_buy_sum = buy[:cost] * buy[:amount]
   puts "#{title}:\t#{one_buy_sum}"
   itogo += one_buy_sum
 end
