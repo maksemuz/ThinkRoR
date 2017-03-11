@@ -18,7 +18,7 @@ class Station
   end
 
   def departure(train)
-    @trains_in_station.delete_at(@trains_in_station.index(train))
+    @trains_in_station.delete(train)
   end
 
   def show_all
