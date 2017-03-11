@@ -22,12 +22,12 @@ class Station
   end
 
   def show_all
-    puts "all=== #{@name}"
+    puts "Станция \"#{@name}\""
     @trains_in_station.each { |train| puts "#{train.number}\t#{train.type}\t#{train.n_cars}" }
   end
 
   def show_by_type(type)
-    puts "type=== #{@name} #{type}"
+    puts "Станция \"#{@name}\", тип #{type}"
     @trains_in_station.each { |train| puts "#{train.number}\t#{train.type}\t#{train.n_cars}" if train.type == type}
   end
 end
