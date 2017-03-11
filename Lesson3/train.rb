@@ -12,6 +12,7 @@
 #  - Показывать предыдущую станцию, текущую, следующую, на основе маршрута
 
 class Train
+  attr_accessor :number, :type, :n_cars
 
   def initialize(number, type, n_cars)
     @number = number
@@ -55,6 +56,7 @@ class Train
     if @current_station.nil?
       @route = route
       @current_station = @route.list[0]
+      @current_station.arrive(self)
     else
       puts 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
     end
@@ -64,7 +66,9 @@ class Train
   def move_to(st_name)
     st_to_go = @route.list.find { |st| st.name == st_name}
     if @route.list.include?(st_to_go)
+      @current_station.departure(self)
       @current_station = st_to_go
+      @current_station.arrive(self)
     else
       puts "Станции \"#{st_to_go.name}\" нет в маршрутном листе."
     end

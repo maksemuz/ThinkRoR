@@ -17,16 +17,18 @@ class Station
     @trains_in_station << train
   end
 
-  def departure(train_type)
-    @trains_in_station.delete_at(@trains_in_station.index(train_type))
+  def departure(train)
+    @trains_in_station.delete_at(@trains_in_station.index(train))
   end
 
   def show_all
-    puts @trains_in_station
+    puts "all=== #{@name}"
+    @trains_in_station.each { |train| puts "#{train.number}\t#{train.type}\t#{train.n_cars}" }
   end
 
   def show_by_type(type)
-    puts "#{type}:\t #{@trains_in_station.select { |item| item == type }.size}"
+    puts "type=== #{@name} #{type}"
+    @trains_in_station.each { |train| puts "#{train.number}\t#{train.type}\t#{train.n_cars}" if train.type == type}
   end
 end
 
