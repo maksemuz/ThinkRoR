@@ -60,16 +60,18 @@ class Train
 
   end
 
-  def move_to(st_name)
-    st_to_go = @route.list.find_index { |st| st if st.name == st_name}
-    puts st_to_go
-    if st_to_go
-      @route.list[@current_station].departure(self)
-      @current_station = st_to_go
-      @route.list[@current_station].arrive(self)
-    else
-      raise ArgumentError, "Станции \"#{st_name}\" нет в маршрутном листе."
-    end
+  def move_forward
+    raise ArgumentError, 'Конец маршрута, вперед движения нет.' if @current_station == @route.list.size - 1
+    @route.list[@current_station].departure(self)
+    @current_station += 1
+    @route.list[@current_station].arrive(self)
+  end
+
+  def move_back
+    raise ArgumentError, 'Начало маршрута, назад движения нет.' if @current_station == 0
+    @route.list[@current_station].departure(self)
+    @current_station -= 1
+    @route.list[@current_station].arrive(self)
   end
 
   def previous_station
