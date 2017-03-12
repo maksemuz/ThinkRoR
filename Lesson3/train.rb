@@ -48,12 +48,12 @@ class Train
   end
 
   def set_route(route)
-    if @current_station.nil?
+    unless @current_station
+      raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
+    else
       @route = route
       @current_station = @route.list[0]
       @current_station.arrive(self)
-    else
-      raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
     end
 
   end
