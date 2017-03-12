@@ -20,7 +20,7 @@ class Train
     @n_cars = n_cars
     @speed = 0
     @route
-    @current_station
+    @current_st_index
   end
 
   def faster
@@ -32,58 +32,47 @@ class Train
   end
 
   def minus_car
-    if @speed == 0 || @n_cars > 0
-      @n_cars -= 1
-    elsif @speed != 0
-      raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
-    elsif @n_cars == 0
-      raise ArgumentError, 'В составе 0 вагонов, оцеплять нечего.'
-    end
+    raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.' if @speed != 0
+    raise ArgumentError, 'В составе 0 вагонов, оцеплять нечего.' if @n_cars == 0
+    @n_cars -= 1 if @speed == 0 && @n_cars > 0
   end
 
   def plus_car
-    if @speed == 0
-      @n_cars += 1
-    else
-      raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
-    end
+    raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.' if @speed != 0
+    @n_cars += 1
   end
 
   def set_route(route)
-    if @current_station
-      raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
-    else
-      @route = route
-      @current_station = 0
-      @route.list[0].arrive(self)
-    end
-
+    raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.' if @current_st_index
+    @route = route
+    @current_st_id = 0
+    @route.list[@current_st_index].arrive(self)
   end
 
   def move_forward
-    raise ArgumentError, 'Конец маршрута, вперед движения нет.' if @current_station == @route.list.size - 1
-    @route.list[@current_station].departure(self)
-    @current_station += 1
-    @route.list[@current_station].arrive(self)
+    raise ArgumentError, 'Конец маршрута, вперед движения нет.' if @current_st_index == @route.list.size - 1
+    @route.list[@current_st_index].departure(self)
+    @current_st_index += 1
+    @route.list[@current_st_index].arrive(self)
   end
 
   def move_back
-    raise ArgumentError, 'Начало маршрута, назад движения нет.' if @current_station == 0
-    @route.list[@current_station].departure(self)
-    @current_station -= 1
-    @route.list[@current_station].arrive(self)
+    raise ArgumentError, 'Начало маршрута, назад движения нет.' if @current_st_index == 0
+    @route.list[@current_st_index].departure(self)
+    @current_st_index -= 1
+    @route.list[@current_st_index].arrive(self)
   end
 
   def previous_station
-    @route.list[@current_station - 1]
+    @route.list[@current_st_index - 1]
   end
 
   def current_station
-    @route.list[@current_station]
+    @route.list[@current_st_index]
   end
 
   def next_station
-    @route.list[@current_station + 1]
+    @route.list[@current_st_index + 1]
   end
 
 end
