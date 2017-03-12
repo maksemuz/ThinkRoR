@@ -21,13 +21,13 @@ class Route
   end
 
   def del_station_by_name(st_name)
-    id_st_to_del = @list.find_index { |st| st.name == st_name}
-    if id_st_to_del == 0 || id_st_to_del == @list.size - 1
+    station_index = @list.find_index { |st| st.name == st_name}
+    if station_index == 0 || station_index == @list.size - 1
       raise ArgumentError, "Нельзя удалять первую и последнюю станции."
-    elsif id_st_to_del.nil?
+    elsif station_index.nil?
       raise ArgumentError, "Станции \"#{st_name}\" нет в маршруте."
     else
-      @list.delete_at(id_st_to_del)
+      @list.delete_at(station_index)
     end
   end
 

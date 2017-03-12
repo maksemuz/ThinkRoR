@@ -19,8 +19,8 @@ class Train
     @type = type
     @n_cars = n_cars
     @speed = 0
-    @route = []
-    @current_station = nil
+    @route
+    @current_station
   end
 
   def faster
@@ -32,10 +32,12 @@ class Train
   end
 
   def minus_car
-    if @speed == 0
+    if @speed == 0 || @n_cars > 0
       @n_cars -= 1
-    else
+    elsif @speed != 0
       raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
+    elsif @n_cars == 0
+      raise ArgumentError, 'В составе 0 вагонов, оцеплять нечего.'
     end
   end
 
@@ -48,39 +50,38 @@ class Train
   end
 
   def set_route(route)
-    unless @current_station
+    if @current_station
       raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
     else
       @route = route
-      @current_station = @route.list[0]
-      @current_station.arrive(self)
+      @current_station = 0
+      @route.list[0].arrive(self)
     end
 
   end
 
   def move_to(st_name)
-    st_to_go = @route.list.find { |st| st.name == st_name}
-    if @route.list.include?(st_to_go)
-      @current_station.departure(self)
+    st_to_go = @route.list.find_index { |st| st if st.name == st_name}
+    puts st_to_go
+    if st_to_go
+      @route.list[@current_station].departure(self)
       @current_station = st_to_go
-      @current_station.arrive(self)
+      @route.list[@current_station].arrive(self)
     else
-      raise ArgumentError, "Станции \"#{st_to_go.name}\" нет в маршрутном листе."
+      raise ArgumentError, "Станции \"#{st_name}\" нет в маршрутном листе."
     end
   end
 
-  def show_prev_st
-    cur_index = @route.list.index(@current_station)
-    @route.list[cur_index - 1].name
+  def previous_station
+    @route.list[@current_station - 1]
   end
 
-  def show_cur_st
-    @current_station.name
+  def current_station
+    @route.list[@current_station]
   end
 
-  def show_next_st
-    cur_index = @route.list.index(@current_station)
-    @route.list[cur_index + 1].name
+  def next_station
+    @route.list[@current_station + 1]
   end
 
 end

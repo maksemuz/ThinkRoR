@@ -21,10 +21,6 @@ class Station
     @trains.delete(train)
   end
 
-  def show_all
-    @trains.map { |train| [train.number,train.type,train.n_cars] }
-  end
-
   def show_by_type(type)
     @trains.map { |train| train if train.type == type}.size
   end
