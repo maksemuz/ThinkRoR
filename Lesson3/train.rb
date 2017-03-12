@@ -31,14 +31,17 @@ class Train
     @speed -= 1
   end
 
-  def change_cars(value)
+  def minus_car
     if @speed == 0
-      case value
-        when '-'
-          @n_cars -= 1
-        when '+'
-          @n_cars += 1
-      end
+      @n_cars -= 1
+    else
+      raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
+    end
+  end
+
+  def plus_car
+    if @speed == 0
+      @n_cars += 1
     else
       raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
     end
