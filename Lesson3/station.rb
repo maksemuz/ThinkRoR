@@ -5,30 +5,28 @@
 # Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
 
 class Station
-  attr_accessor :name, :trains_in_station
+  attr_accessor :name, :trains
 
 
   def initialize(name)
     @name = name
-    @trains_in_station = []
+    @trains = []
   end
 
   def arrive(train)
-    @trains_in_station << train
+    @trains << train
   end
 
   def departure(train)
-    @trains_in_station.delete(train)
+    @trains.delete(train)
   end
 
   def show_all
-    puts "Станция \"#{@name}\""
-    @trains_in_station.each { |train| puts "#{train.number}\t#{train.type}\t#{train.n_cars}" }
+    @trains.map { |train| [train.number,train.type,train.n_cars] }
   end
 
   def show_by_type(type)
-    puts "Станция \"#{@name}\", тип #{type}"
-    @trains_in_station.each { |train| puts "#{train.number}\t#{train.type}\t#{train.n_cars}" if train.type == type}
+    @trains.map { |train| train if train.type == type}.size
   end
 end
 

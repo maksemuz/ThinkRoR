@@ -12,7 +12,7 @@
 #  - Показывать предыдущую станцию, текущую, следующую, на основе маршрута
 
 class Train
-  attr_accessor :number, :type, :n_cars
+  attr_accessor :number, :type, :n_cars, :speed
 
   def initialize(number, type, n_cars)
     @number = number
@@ -31,14 +31,6 @@ class Train
     @speed -= 1
   end
 
-  def show_speed
-    puts @speed
-  end
-
-  def show_cars
-    puts @n_cars
-  end
-
   def change_cars(value)
     if @speed == 0
       case value
@@ -48,7 +40,7 @@ class Train
           @n_cars += 1
       end
     else
-      puts 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
+      raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.'
     end
   end
 
@@ -58,7 +50,7 @@ class Train
       @current_station = @route.list[0]
       @current_station.arrive(self)
     else
-      puts 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
+      raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.'
     end
 
   end
@@ -70,20 +62,22 @@ class Train
       @current_station = st_to_go
       @current_station.arrive(self)
     else
-      puts "Станции \"#{st_to_go.name}\" нет в маршрутном листе."
+      raise ArgumentError, "Станции \"#{st_to_go.name}\" нет в маршрутном листе."
     end
   end
 
-  def show_station(word)
+  def show_prev_st
     cur_index = @route.list.index(@current_station)
-    case word
-      when 'предыдущая'
-        puts @route.list[cur_index - 1].name
-      when 'текущая'
-        puts @route.list[cur_index].name
-      when 'следующая'
-        puts @route.list[cur_index + 1].name
-    end
+    @route.list[cur_index - 1].name
+  end
+
+  def show_cur_st
+    @current_station.name
+  end
+
+  def show_next_st
+    cur_index = @route.list.index(@current_station)
+    @route.list[cur_index + 1].name
   end
 
 end

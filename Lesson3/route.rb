@@ -14,26 +14,26 @@ class Route
 
   def add_station(name,number)
     if number == 0 || number > @list.size - 1
-      puts "Номер добавляемой станции должен быть между первой (1) и последней (#{@list.size})"
+      raise ArgumentError, "Номер добавляемой станции должен быть между первой (1) и последней (#{@list.size})"
     else
       @list.insert(number, name)
     end
   end
 
   def del_station_by_name(st_name)
-    st_to_del = @list.find { |st| st.name == st_name}
-    if @list.index(st_to_del) == 0 || @list.index(st_to_del) == @list.size - 1
-      puts "Нельзя удалять первую и последнюю станции."
-    elsif !@list.include?(st_to_del)
-      puts "Станции \"#{st_name}\" нет в маршруте."
+    id_st_to_del = @list.find_index { |st| st.name == st_name}
+    if id_st_to_del == 0 || id_st_to_del == @list.size - 1
+      raise ArgumentError, "Нельзя удалять первую и последнюю станции."
+    elsif id_st_to_del.nil?
+      raise ArgumentError, "Станции \"#{st_name}\" нет в маршруте."
     else
-      @list.delete_if { |item| item == st_to_del }
+      @list.delete_at(id_st_to_del)
     end
   end
 
   def del_station_by_number(number)
     if number == 0 || number >= @list.size - 1
-      puts "Номер удаляемой станции должен быть между первой (1) и последней (#{@list.size})"
+      raise ArgumentError, "Номер удаляемой станции должен быть между первой (1) и последней (#{@list.size})"
     else
       @list.delete_at(number)
     end
