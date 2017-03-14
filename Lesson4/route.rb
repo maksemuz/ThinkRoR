@@ -6,13 +6,16 @@
 # - Может выводить список всех станций по-порядку от начальной до конечной
 
 class Route
-  attr_reader :list
+  attr_reader :stations, :name, :all_routes
+  @@all_routes = []
 
-  def initialize(start_name, end_name)
+  def initialize(name, start_name, end_name)
     @stations = [start_name, end_name]
+    @name = name
+    @@all_routes << self
   end
 
-  def add_station(name,number)
+  def add_station(name, number)
     if number == 0 || number > @stations.size - 1
       raise ArgumentError, "Номер добавляемой станции должен быть между первой (1) и последней (#{@stations.size})"
     else
@@ -21,7 +24,7 @@ class Route
   end
 
   def del_station_by_name(st_name)
-    station_index = @stations.find_index { |st| st.name == st_name}
+    station_index = @stations.find_index { |st| st.name == st_name }
     if station_index == 0 || station_index == @stations.size - 1
       raise ArgumentError, "Нельзя удалять первую и последнюю станции."
     elsif station_index.nil?
@@ -40,6 +43,10 @@ class Route
   end
 
   def show_list
-    @stations.each_with_index { |item,index| puts "#{index}:\t#{item.name}" }
+    @stations.each_with_index { |item, index| puts "#{index}:\t#{item.name}" }
+  end
+
+  def self.all_names
+    @@all_routes.map { |route| route.name }
   end
 end

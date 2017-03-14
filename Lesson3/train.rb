@@ -46,33 +46,33 @@ class Train
     raise ArgumentError, 'Поезд находится на маршруте, нельзя назначить новый маршрут.' if @current_st_index
     @route = route
     @current_st_id = 0
-    @route.list[@current_st_index].arrive(self)
+    @route.stations[@current_st_index].arrive(self)
   end
 
   def move_forward
-    raise ArgumentError, 'Конец маршрута, вперед движения нет.' if @current_st_index == @route.list.size - 1
-    @route.list[@current_st_index].departure(self)
+    raise ArgumentError, 'Конец маршрута, вперед движения нет.' if @current_st_index == @route.stations.size - 1
+    @route.stations[@current_st_index].departure(self)
     @current_st_index += 1
-    @route.list[@current_st_index].arrive(self)
+    @route.stations[@current_st_index].arrive(self)
   end
 
   def move_back
     raise ArgumentError, 'Начало маршрута, назад движения нет.' if @current_st_index == 0
-    @route.list[@current_st_index].departure(self)
+    @route.stations[@current_st_index].departure(self)
     @current_st_index -= 1
-    @route.list[@current_st_index].arrive(self)
+    @route.stations[@current_st_index].arrive(self)
   end
 
   def previous_station
-    @route.list[@current_st_index - 1]
+    @route.stations[@current_st_index - 1]
   end
 
   def current_station
-    @route.list[@current_st_index]
+    @route.stations[@current_st_index]
   end
 
   def next_station
-    @route.list[@current_st_index + 1]
+    @route.stations[@current_st_index + 1]
   end
 
 end
