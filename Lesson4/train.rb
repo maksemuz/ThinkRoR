@@ -67,7 +67,7 @@ class Train
 
   # методы в этой секции используются в пределах класса, наследуются и переопределяются в наследниках
 
-  protected
+  private
 
   def carriage_class
     raise ArgumentError, 'Класс вагона не задан'
