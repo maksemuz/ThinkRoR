@@ -6,13 +6,11 @@
 # - Может выводить список всех станций по-порядку от начальной до конечной
 
 class Route
-  attr_reader :stations, :name, :all_routes
-  @@all_routes = []
+  attr_reader :stations, :name
 
   def initialize(name, start_name, end_name)
     @stations = [start_name, end_name]
     @name = name
-    @@all_routes << self
   end
 
   def add_station(name, number)
@@ -46,7 +44,4 @@ class Route
     @stations.each_with_index { |item, index| puts "#{index}:\t#{item.name}" }
   end
 
-  def self.all_names
-    @@all_routes.map { |route| route.name }
-  end
 end

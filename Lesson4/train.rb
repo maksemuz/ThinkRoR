@@ -1,14 +1,12 @@
 class Train
-  attr_accessor :number, :speed, :all
-  @@all = []
+  attr_accessor :number, :speed
 
   def initialize(number)
     @number = number
     @speed = 0
     @route
     @current_st_index
-    @cars = []
-    @@all << self
+    @carriages = []
   end
 
   def faster
@@ -21,13 +19,14 @@ class Train
 
   def minus_car
     raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.' if @speed != 0
-    raise ArgumentError, 'В составе 0 вагонов, оцеплять нечего.' if @cars.empty?
-    @cars.drop(1) if @speed == 0 && !@cars.empty?
+    raise ArgumentError, 'В составе 0 вагонов, отцеплять нечего.' if @carriages.empty?
+    @carriages.drop(1) if @speed == 0 && !@carriages.empty?
   end
 
   def plus_car(car)
     raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.' if @speed != 0
-    @cars << car
+    raise ArgumentError, 'Неверный класс вагона' unless car.is_a? carriage_class
+    @carriages << car
   end
 
   def add_route(route)
@@ -63,8 +62,11 @@ class Train
     @route.stations[@current_st_index + 1]
   end
 
-  def self.all_numbers
-    @@all.map { |tr| tr.number }
+  # методы в этой секции используются в пределах класса, наследуются и переопределяются в наследниках
+  protected
+  def carriage_class
+    raise ArgumentError, 'Класс вагона не задан'
   end
+
 
 end

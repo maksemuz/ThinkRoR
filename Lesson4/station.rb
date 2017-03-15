@@ -6,12 +6,10 @@
 
 class Station
   attr_accessor :name, :trains
-  @@all = []
 
   def initialize(name)
     @name = name
     @trains = []
-    @@all << self
   end
 
   def arrive(train)
@@ -24,14 +22,6 @@ class Station
 
   def show_by_type(type)
     @trains.map { |train| train if train.type == type}.size
-  end
-
-  def self.all
-    @@all
-  end
-
-  def self.all_names
-    @@all.map { |st| st.name}
   end
 
 end
