@@ -1,3 +1,5 @@
+Encoding.default_external = 'UTF-8'
+
 class Train
   attr_accessor :number, :speed
 
@@ -27,6 +29,7 @@ class Train
     raise ArgumentError, 'Нельзя манипулировать вагонами на ходу, сначала остановите поезд.' if @speed != 0
     raise ArgumentError, 'Неверный класс вагона' unless car.is_a? carriage_class
     @carriages << car
+    puts @carriages
   end
 
   def add_route(route)
@@ -63,10 +66,10 @@ class Train
   end
 
   # методы в этой секции используются в пределах класса, наследуются и переопределяются в наследниках
+
   protected
+
   def carriage_class
     raise ArgumentError, 'Класс вагона не задан'
   end
-
-
 end

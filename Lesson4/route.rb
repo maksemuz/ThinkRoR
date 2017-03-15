@@ -1,3 +1,5 @@
+Encoding.default_external = 'UTF-8'
+
 # - Имеет начальную и конечную станцию, а также список промежуточных станций.
 # Начальная и конечная станции указываютсся при создании маршрута,
 # а промежуточные могут добавляться между ними.
@@ -43,5 +45,4 @@ class Route
   def show_list
     @stations.each_with_index { |item, index| puts "#{index}:\t#{item.name}" }
   end
-
 end

@@ -1,3 +1,5 @@
+Encoding.default_external = 'UTF-8'
+
 # Имеет название, которое указывается при ее создании
 # Может принимать поезда (по одному за раз)
 # Может показывать список всех поездов на станции, находящиеся в текущий момент
@@ -21,8 +23,6 @@ class Station
   end
 
   def show_by_type(type)
-    @trains.map { |train| train if train.type == type}.size
+    @trains.map { |train| train if train.type == type }.size
   end
-
 end
-
