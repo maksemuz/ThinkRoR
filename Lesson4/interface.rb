@@ -20,9 +20,9 @@ class Interface
 
   def menu(options)
     loop do
-      options.each_with_index { |obj, index| puts "#{index}:\t#{obj.values}" }
+      options.values.each_with_index { |obj, index| puts "#{index}:\t#{obj}" }
       print '> '
-      send options[gets.strip.to_i].keys.first
+      send options.keys[gets.strip.to_i]
     end
   end
 
