@@ -20,7 +20,7 @@ class Interface
 
   def menu(options)
     loop do
-      options.values.each_with_index { |obj, index| puts "#{index}:\t#{obj}" }
+      options.values.each_with_index { |line, index| puts "#{index}:\t#{line}" }
       print '> '
       send options.keys[gets.strip.to_i]
     end
