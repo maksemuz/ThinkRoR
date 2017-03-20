@@ -1,12 +1,10 @@
-Encoding.default_external = 'UTF-8'
 require_relative 'company'
 
 class Train
   include Company
   attr_accessor :number, :speed
 
-  @@trains = []
-  @@train_numbers = []
+  @@trains = {}
 
   def initialize(number)
     @number = number
@@ -14,8 +12,7 @@ class Train
     @route
     @current_st_index
     @carriages = []
-    @@trains << self
-    @@train_numbers << self.number
+    @@trains.store(number,self)
 
   end
 
@@ -86,11 +83,11 @@ class Train
   end
 
   def self.numbers
-    @@train_numbers
+    @@trains.keys
   end
 
-  def find(number)
-    @@trains.find { |train| train.number == number}
+  def self.find(num)
+    @@trains.find { |number,train| train if number == num}
   end
 
 end

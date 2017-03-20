@@ -1,5 +1,3 @@
-Encoding.default_external = 'UTF-8'
-
 # - Имеет начальную и конечную станцию, а также список промежуточных станций.
 # Начальная и конечная станции указываютсся при создании маршрута,
 # а промежуточные могут добавляться между ними.
@@ -9,10 +7,12 @@ Encoding.default_external = 'UTF-8'
 
 class Route
   attr_reader :stations, :name
+  @@routes = []
 
   def initialize(name, start_name, end_name)
     @stations = [start_name, end_name]
     @name = name
+    @@routes << self
   end
 
   def add_station(name, number)
@@ -44,5 +44,13 @@ class Route
 
   def show_list
     @stations.each_with_index { |item, index| puts "#{index}:\t#{item.name}" }
+  end
+
+  def self.all
+    @@routes
+  end
+
+  def self.names
+    @@routes.map { |route| route.name}
   end
 end

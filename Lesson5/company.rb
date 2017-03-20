@@ -1,11 +1,6 @@
 module Company
+  attr_accessor :company
 
-  def set_company(company_name)
-    @company ||= company_name
-  end
-
-  def get_company
-    @company
-  end
+  @company
 
 end

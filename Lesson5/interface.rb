@@ -1,5 +1,3 @@
-Encoding.default_external = 'UTF-8'
-
 require_relative 'car'
 require_relative 'station'
 require_relative 'route'
@@ -10,8 +8,6 @@ require_relative 'passenger_car'
 
 class Interface
   def initialize
-    @routes = []
-    @route_names = []
   end
 
   def menu(options)
@@ -51,28 +47,27 @@ class Interface
   def add_route
     print 'Имя маршрута: '
     name = gets.strip
-    puts 'Такой маршрут уже есть.' if @route_names.include? name
+    puts 'Такой маршрут уже есть.' if Route.names.include? name
     print 'Первая станция: '
     start = gets.strip
     puts 'Такой станции нет.' unless Station.names.include? start
     print 'Последняя станция: '
     finish = gets.strip
     puts 'Такой станции нет.' unless Station.names.include? finish
-    @routes << Route.new(name, start, finish)
-    @route_names << name
+    Route.new(name, start, finish)
   end
 
   # - Добавить станцию в маршрут
   def insert_station
     print 'Имя маршрута: '
     rt_name = gets.strip
-    puts 'Такого маршрута нет.' unless @route_names.include? rt_name
+    puts 'Такого маршрута нет.' unless Route.names.include? rt_name
     print 'Имя станции: '
     st_name = gets.strip
     puts 'Такой станции нет.' unless Station.names.include? st_name
     print 'Позиция станции в маршруте: '
     position = gets.strip
-    route = @routes.find { |rt| rt.name == rt_name }
+    route = Route.all.find { |rt| rt.name == rt_name }
     route.add_station(st_name, position)
   end
 
@@ -80,11 +75,11 @@ class Interface
   def remove_station
     print 'Имя маршрута: '
     rt_name = gets.strip
-    puts 'Такого маршрута нет.' unless @route_names.include? rt_name
+    puts 'Такого маршрута нет.' unless Route.names.include? rt_name
     print 'Имя станции: '
     st_name = gets.strip
     puts 'Такой станции нет.' unless Station.names.include? st_name
-    route = @routes.find { |rt| rt.name == rt_name }
+    route = Route.all.find { |rt| rt.name == rt_name }
     route.del_station_by_name(st_name)
   end
 
@@ -92,12 +87,12 @@ class Interface
   def assign_route
     print 'Имя маршрута: '
     rt_name = gets.strip
-    puts 'Такого маршрута нет.' unless @route_names.include? rt_name
+    puts 'Такого маршрута нет.' unless Route.names.include? rt_name
     print 'Номер поезда: '
     number = gets.strip
     puts 'Такого поезда нет.' unless Train.numbers.include? number
     train = Train.all.find { |tr| tr.number == number }
-    route = @routes.find { |rt| rt.name == rt_name }
+    route = Route.all.find { |rt| rt.name == rt_name }
     train.add_route(route)
   end
 
@@ -150,7 +145,7 @@ class Interface
 
   # - Просматривать список маршрутов
   def all_routes
-    puts @route_names
+    puts Route.all
   end
 
   # - Просматривать список поездов

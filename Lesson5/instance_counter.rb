@@ -6,16 +6,16 @@ module InstanceCounter
   end
 
   module ClassMethods
-    def instances
-      @instances
-    end
+    attr_accessor :instances
   end
 
   protected
 
   module InstanceMethods
+
     def register_instance
-      @instances += 1
+      self.class.instances ||= 0
+      self.class.instances += 1
     end
   end
 

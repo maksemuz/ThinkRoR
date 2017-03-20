@@ -4,8 +4,6 @@
 # Может показывать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
 # Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
 
-Encoding.default_external = 'UTF-8'
-
 require_relative 'instance_counter'
 
 class Station
@@ -13,13 +11,11 @@ class Station
   attr_accessor :name, :trains
 
   @@stations = []
-  @@station_names = []
 
   def initialize(name)
     @name = name
     @trains = []
     @@stations << self
-    @@station_names << self.name
     register_instance
   end
 
@@ -40,7 +36,7 @@ class Station
   end
 
   def self.names
-    @@station_names
+    @@stations.map { |station| station.name}
   end
 
 end
