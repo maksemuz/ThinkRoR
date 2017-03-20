@@ -16,6 +16,18 @@ class Train
 
   end
 
+  def self.all
+    @@trains
+  end
+
+  def self.numbers
+    @@trains.keys
+  end
+
+  def self.find(number)
+    @@trains[number]
+  end
+
   def faster
     @speed += 1
   end
@@ -76,18 +88,6 @@ class Train
 
   def carriage_class
     raise ArgumentError, 'Класс вагона не задан'
-  end
-
-  def self.all
-    @@trains
-  end
-
-  def self.numbers
-    @@trains.keys
-  end
-
-  def self.find(number)
-    @@trains[number]
   end
 
 end
