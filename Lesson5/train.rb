@@ -12,7 +12,7 @@ class Train
     @route
     @current_st_index
     @carriages = []
-    @@trains.store(number,self)
+    @@trains[number] = self
 
   end
 
@@ -86,8 +86,8 @@ class Train
     @@trains.keys
   end
 
-  def self.find(num)
-    @@trains.find { |number,train| train if number == num}
+  def self.find(number)
+    @@trains[number]
   end
 
 end

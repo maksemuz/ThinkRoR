@@ -51,6 +51,6 @@ class Route
   end
 
   def self.names
-    @@routes.map { |route| route.name}
+    @@routes.map(&:name)
   end
 end
