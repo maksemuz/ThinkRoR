@@ -20,67 +20,60 @@ class Interface
 
   # - Создавать станции
   def add_station
-    begin
-      name = nil
-      print 'Имя станции (до 10 символов): '
-      name = gets.strip
-      Station.new(name)
-    rescue => err_msg
-      puts err_msg
-      retry
-    end
-
+    name = nil
+    print 'Имя станции (до 10 символов): '
+    name = gets.strip
+    Station.new(name)
+  rescue => err_msg
+    puts err_msg
+    retry
   end
 
   # - Создавать поезда
   def add_train
-    begin
-      print 'Тип поезда (cargo или passenger): '
-      type = gets.strip
-      number = nil
-      print 'Номер поезда: '
-      number = gets.strip
-      case type
-        when 'cargo'
-          CargoTrain.new(number)
-        when 'passenger'
-          PassengerTrain.new(number)
-        else
-          raise ArgumentError, 'Неверный тип поезда'
-      end
-    rescue => err_msg
-      puts err_msg
-      retry
+    print 'Тип поезда (cargo или passenger): '
+    type = gets.strip
+    number = nil
+    print 'Номер поезда: '
+    number = gets.strip
+    case type
+      when 'cargo'
+        CargoTrain.new(number)
+      when 'passenger'
+        PassengerTrain.new(number)
+      else
+        raise ArgumentError, 'Неверный тип поезда'
     end
+  rescue => err_msg
+    puts err_msg
+    retry
   end
 
   # - Создавать маршруты
   def add_route
-    begin
-      name = nil
-      print 'Имя маршрута: '
-      name = gets.strip
-      print 'Первая станция: '
-      start = gets.strip
-      raise ArgumentError, 'Такой станции нет.' unless Station.names.include? start
-      print 'Последняя станция: '
-      finish = gets.strip
-      raise ArgumentError, 'Такой станции нет.' unless Station.names.include? finish
-      Route.new(name, start, finish)
-    rescue => err_msg
-      puts err_msg
-      retry
-    end
+    name = nil
+    print 'Имя маршрута: '
+    name = gets.strip
+    print 'Первая станция: '
+    start = gets.strip
+    raise ArgumentError, 'Такой станции нет.' unless Station.all.key? start
+    print 'Последняя станция: '
+    finish = gets.strip
+    raise ArgumentError, 'Такой станции нет.' unless Station.all.key? finish
+    Route.new(name, start, finish)
+  rescue => err_msg
+    puts err_msg
+    retry
   end
 
   # - Добавить станцию в маршрут
   def insert_station
     print 'Имя маршрута: '
     rt_name = gets.strip
-    puts 'Такого маршрута нет.' unless Route.names.include? rt_name
+    puts 'Такого маршрута нет.' unless Route.all.key? rt_name
     print 'Имя станции: '
     st_name = gets.strip
-    puts 'Такой станции нет.' unless Station.names.include? st_name
+    puts 'Такой станции нет.' unless Station.all.key? st_name
     print 'Позиция станции в маршруте: '
     position = gets.strip
     route = Route.all[rt_name]
@@ -91,10 +84,10 @@ class Interface
   def remove_station
     print 'Имя маршрута: '
     rt_name = gets.strip
-    puts 'Такого маршрута нет.' unless Route.names.include? rt_name
+    puts 'Такого маршрута нет.' unless Route.all.key? rt_name
     print 'Имя станции: '
     st_name = gets.strip
-    puts 'Такой станции нет.' unless Station.names.include? st_name
+    puts 'Такой станции нет.' unless Station.all.key? st_name
     route = Route.all[rt_name]
     route.del_station_by_name(st_name)
   end
@@ -103,10 +96,10 @@ class Interface
   def assign_route
     print 'Имя маршрута: '
     rt_name = gets.strip
-    puts 'Такого маршрута нет.' unless Route.names.include? rt_name
+    puts 'Такого маршрута нет.' unless Route.all.key? rt_name
     print 'Номер поезда: '
     number = gets.strip
-    puts 'Такого поезда нет.' unless Train.numbers.include? number
+    puts 'Такого поезда нет.' unless Train.all.key? number
     train = Train.all[number]
     route = Route.all[rt_name]
     train.add_route(route)
@@ -116,7 +109,7 @@ class Interface
   def add_carriage
     print 'Номер поезда: '
     number = gets.strip
-    puts 'Такого поезда нет.' unless Train.numbers.include? number
+    puts 'Такого поезда нет.' unless Train.all.key? number
     train = Train.all[number]
     if train.is_a? CargoTrain
       carriage = CargoCarriage.new
@@ -131,7 +124,7 @@ class Interface
   def rem_carriage
     print 'Номер поезда: '
     number = gets.strip
-    puts 'Такого поезда нет.' unless Train.numbers.include? number
+    puts 'Такого поезда нет.' unless Train.all.key? number
     train = Train.all[number]
     train.minus_car
   end
@@ -140,7 +133,7 @@ class Interface
   def train_forward
     print 'Номер поезда: '
     number = gets.strip
-    puts 'Такого поезда нет.' unless Train.numbers.include? number
+    puts 'Такого поезда нет.' unless Train.all.key? number
     train = Train.all[number]
     train.move_forward
   end
@@ -149,31 +142,31 @@ class Interface
   def train_back
     print 'Номер поезда: '
     number = gets.strip
-    puts 'Такого поезда нет.' unless Train.numbers.include? number
+    puts 'Такого поезда нет.' unless Train.all.key? number
     train = Train.all[number]
     train.move_back
   end
 
   # - Просматривать список станций
   def all_stations
-    puts Station.names
+    puts Station.all.keys
   end
 
   # - Просматривать список маршрутов
   def all_routes
-    puts Route.names
+    puts Route.all.keys
   end
 
   # - Просматривать список поездов
   def all_trains
-    puts Train.numbers
+    puts Train.all.keys
   end
 
   # - Просматривать список поездов на станции
   def trains_by_station
     print 'Имя станции: '
     name = gets.strip
-    puts 'Такой станции нет.' if Station.names.include? name
+    puts 'Такой станции нет.' if Station.all.key? name
     station = Station.all[name]
     puts station.trains
   end

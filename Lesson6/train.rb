@@ -4,7 +4,7 @@ class Train
   include Company
   attr_accessor :number, :speed
 
-  NUMBER_FORMAT = /^[a-zA-Z0-9]{3}-?[a-zA-Z0-9]{2}$/
+  NUMBER_FORMAT = /^[a-z\d]{3}-?[a-z\d]{2}$/i
 
   @@trains = {}
 
@@ -12,8 +12,6 @@ class Train
     @number = number
     valid?
     @speed = 0
-    @route
-    @current_st_index
     @carriages = []
     @@trains[number] = self
 
@@ -21,10 +19,6 @@ class Train
 
   def self.all
     @@trains
-  end
-
-  def self.numbers
-    @@trains.keys
   end
 
   def self.find(number)
@@ -97,7 +91,7 @@ class Train
   def valid?
     raise ArgumentError, 'Номер не может быть пустым' if @number.empty?
     raise ArgumentError, 'Номер должен соответствовать заданному формату' if @number !~ NUMBER_FORMAT
-    raise ArgumentError, 'Такой поезд уже есть.' if self.class.numbers.include? @number
+    raise ArgumentError, 'Такой поезд уже есть.' if self.class.all.key? @number
     true
   end
 

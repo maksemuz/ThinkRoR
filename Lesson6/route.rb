@@ -8,7 +8,7 @@
 class Route
   attr_reader :stations, :name
 
-  NAME_FORMAT = /^[а-яА-Яa-zA-Z0-9]+$/
+  NAME_FORMAT = /^[a-z\d]+$/i
   @@routes = {}
 
   def initialize(name, start_name, end_name)
@@ -20,10 +20,6 @@ class Route
 
   def self.all
     @@routes
-  end
-
-  def self.names
-    @@routes.keys
   end
 
   def add_station(name, number)
@@ -54,16 +50,16 @@ class Route
   end
 
   def show_list
-    @stations.each_with_index { |item, index| puts "#{index}:\t#{item.name}" }
+    @stations
   end
 
   protected
 
   def valid?
-    raise ArgumentError, 'Имя не может быть пустым' if @name.empty?
+    raise ArgumentError, 'Имя не может быть пустым' if @name.to_s.empty?
     raise ArgumentError, 'Имя может содержать только буквы и цифры' if @name !~ NAME_FORMAT
     raise ArgumentError, 'Длина имени не более 10 символов' if @name.size > 10
-    raise ArgumentError, 'Такая станция уже есть.' if self.class.names.include? @name
+    raise ArgumentError, 'Такая станция уже есть.' if self.class.all.key? @name
     true
   end
 
