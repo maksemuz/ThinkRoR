@@ -10,13 +10,24 @@ class Station
   include InstanceCounter
   attr_accessor :name, :trains
 
-  @@stations = []
+  NAME_FORMAT = /^[а-яА-Яa-zA-Z0-9]+$/
+
+  @@stations = {}
 
   def initialize(name)
     @name = name
+    valid?
     @trains = []
-    @@stations << self
+    @@stations[name] = self
     register_instance
+  end
+
+  def self.all
+    @@stations
+  end
+
+  def self.names
+    @@stations.keys
   end
 
   def arrive(train)
@@ -31,12 +42,14 @@ class Station
     @trains.map { |train| train if train.type == type }.size
   end
 
-  def self.all
-    @@stations
-  end
+  protected
 
-  def self.names
-    @@stations.map { |station| station.name}
+  def valid?
+    raise ArgumentError, 'Имя не может быть пустым' if @name.empty?
+    raise ArgumentError, 'Имя может содержать только буквы и цифры' if @name !~ NAME_FORMAT
+    raise ArgumentError, 'Длина имени не более 10 символов' if @name.size > 10
+    raise ArgumentError, 'Такая станция уже есть.' if self.class.names.include? @name
+    true
   end
 
 end
