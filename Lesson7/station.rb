@@ -38,8 +38,8 @@ class Station
     @trains.select { |train| train if train.type == type }
   end
 
-  def process_trains(&process)
-    @trains.each { |train| process.call(train) }
+  def process_trains
+    @trains.each { |train| yield(train) }
   end
   protected
 

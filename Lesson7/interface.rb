@@ -212,7 +212,7 @@ class Interface
     raise ArgumentError, 'Такого поезда нет' unless Train.all.key? number
     train = Train.all[number]
     train.process_carriages do |car,num|
-      puts "\t#{num + 1}\t #{car.class},\tfree: #{car.free},\treserved: #{car.busy}"
+      puts "\t#{num}\t #{car.class},\tfree: #{car.free},\treserved: #{car.busy}"
     end
   rescue => err_msg
     puts err_msg
