@@ -82,8 +82,8 @@ class Train
     @carriages
   end
 
-  def proc_carriages(process)
-    @carriages.each_with_index { |car,index| process.call(index,car) }
+  def process_carriages(&process)
+    @carriages.each_with_index { |car,index| process.call(car,index) }
   end
 
   # методы в этой секции используются в пределах класса, наследуются и переопределяются в наследниках

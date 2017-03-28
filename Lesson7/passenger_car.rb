@@ -4,12 +4,13 @@ class PassengerCarriage < Carriage
   def initialize(places = 50)
     @places = places
     @free_places = places
-    valid?(@places)
+    validate!(@places)
   end
 
   def reserve(vol)
-    raise ArgumentError, "В вагоне нет #{vol} свободных мест, бронирование не удалось" \
     if @free_places - vol < 0
+      raise ArgumentError, "В вагоне нет #{vol} свободных мест, бронирование не удалось"
+    end
     @free_places -= vol
   rescue => err
     puts err
@@ -25,9 +26,10 @@ class PassengerCarriage < Carriage
 
   private
 
-  def valid?(num)
-    raise ArgumentError, 'Количество мест должно быть целым положительным числом' \
-    if num.nil? || num <= 0 || !num.integer?
+  def validate!(num)
+    if !num.integer? || num <= 0
+      raise ArgumentError, 'Количество мест должно быть целым положительным числом'
+    end
     true
   end
 

@@ -4,13 +4,14 @@ class CargoCarriage < Carriage
   def initialize(space = 1000)
     @space = space
     @free_space = space
-    valid?(@space)
+    validate!(@space)
   end
 
   def reserve(vol)
-    valid?(vol)
-    raise ArgumentError, 'В вагоне нет свободного места, бронирование не удалось' \
+    validate!(vol)
     if @free_space - vol < 0
+      raise ArgumentError, 'В вагоне нет свободного места, бронирование не удалось'
+    end
     @free_space -= vol
   end
 
@@ -24,11 +25,11 @@ class CargoCarriage < Carriage
 
   private
 
-  def valid?(num)
-    raise ArgumentError, "Объем #{num} должен быть положительным числом" \
-    if (num.nil?) || (!num.positive?) || (!num.is_a? Numeric)
+  def validate!(num)
+    if (!num.is_a? Numeric) || (!num.positive?)
+      raise ArgumentError, "Объем #{num} должен быть положительным числом"
+    end
     true
   end
-
-
+  
 end

@@ -38,7 +38,7 @@ class Station
     @trains.select { |train| train if train.type == type }
   end
 
-  def proc_trains(process)
+  def process_trains(&process)
     @trains.each { |train| process.call(train) }
   end
   protected

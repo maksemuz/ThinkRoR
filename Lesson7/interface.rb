@@ -204,18 +204,6 @@ class Interface
 
   end
 
-  def train_process
-    Proc.new do |num, car|
-      puts "\t#{num + 1}\t #{car.class},\tfree: #{car.free},\treserved: #{car.busy}"
-    end
-  end
-
-  def station_process
-    Proc.new do |train|
-      puts "\t#{train.number},\t#{train.class},\t#{train.carriages.size}"
-    end
-  end
-
   # - Отображение вагонов поезда
   def train_info
     number = nil
@@ -223,7 +211,9 @@ class Interface
     number = gets.strip
     raise ArgumentError, 'Такого поезда нет' unless Train.all.key? number
     train = Train.all[number]
-    train.proc_carriages(train_process)
+    train.process_carriages do |car,num|
+      puts "\t#{num + 1}\t #{car.class},\tfree: #{car.free},\treserved: #{car.busy}"
+    end
   rescue => err_msg
     puts err_msg
     retry
@@ -236,7 +226,9 @@ class Interface
     name = gets.strip
     raise ArgumentError, 'Такой станции нет.' unless Station.all.key? name
     station = Station.all[name]
-    station.proc_trains(station_process)
+    station.process_trains do |train|
+      puts "\t#{train.number},\t#{train.class},\t#{train.carriages.size}"
+    end
   rescue => err_msg
     puts err_msg
     retry
