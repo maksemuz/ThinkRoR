@@ -1,12 +1,9 @@
-# Module of validators
-
 module Validation
   def self.included(base)
     base.extend ClassMethods
     base.send :include, InstanceMethods
   end
 
-  # Methods to be extended
   module ClassMethods
     def validate(attr, validator, arg = nil)
       @validations ||= []
@@ -14,7 +11,6 @@ module Validation
     end
   end
 
-  # Methds to be included
   module InstanceMethods
     def validate!
       self.class.get_validations.each do |val|
