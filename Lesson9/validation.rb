@@ -8,8 +8,6 @@ module Validation
 
   # Methods to be extended
   module ClassMethods
-    # attr_reader :validations
-
     def validate(attr, validator, arg = nil)
       @validations ||= []
       @validations << { attr: attr, validator: validator, arg: arg }
