@@ -26,6 +26,7 @@ module Validation
       true
     rescue => err_msg
       puts err_msg
+      false
     end
 
     def presence(attr, _val)
